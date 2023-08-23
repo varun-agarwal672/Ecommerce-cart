@@ -3,60 +3,26 @@ import addbtn from "../images/add.png";
 import subtractbtn from "../images/subtracting-button.png";
 import deletebtn from "../images/delete.png";
 
-class CartItem extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            title : "Phone",
-            price : 999,
-            qty : 1
-        }
-
-        // this.increaseQuantity = this.increaseQuantity.bind(this);
-    }
-
-    increaseQuantity = () => {
-        // setState format 1 -> use when previous state is not required.
-        // this.setState({
-        //     qty : this.state.qty + 1
-        // });
-
-        //setState form 2 -> use when previous state is required.
-        this.setState((prevState) => {
-            return {
-                qty : prevState.qty + 1
-            }
-        });
-    }
-
-    decreaseQuantity = () => {
-        this.setState((prevState) => {
-            return {
-                qty : prevState.qty > 0 ? prevState.qty - 1 : 0
-            }
-        });
-    }
-
-    render() {
-        const {title, price, qty} = this.state;
+const CartItem = (props) => {
+        const {product, onIncreaseQuantity, onDecreaseQuantity, onDeleteProduct} = props;
+        const {title, price, qty, img} = props.product;
         return(
             <div className="cart-item">
                 <div className="left-block">
-                    <img style={styles.image} />
+                    <img style={styles.image} src={img} alt={title} />
                 </div>
                 <div className="right-block">
                     <div style={{fontSize : "25px"}}>{title}</div>
-                    <div style={{fontSize : "25px", color : "#777"}}>Rs {price}</div>
-                    <div style={{fontSize : "25px", color : "#777"}}>Qty : {qty}</div>
+                    <div style={{ color : "#777"}}>Rs {price}</div>
+                    <div style={{ color : "#777"}}>Qty : {qty}</div>
                     <div className="cart-item-actions">
-                        <img alt="increase" className="action-icons" src={addbtn} onClick={this.increaseQuantity}/>
-                        <img alt="decrease" className="action-icons" src={subtractbtn} onClick={this.decreaseQuantity} />
-                        <img alt="delete" className="action-icons" src={deletebtn} />
+                        <img alt="increase" className="action-icons" src={addbtn} onClick={() => onIncreaseQuantity(product)}/>
+                        <img alt="decrease" className="action-icons" src={subtractbtn} onClick={() => onDecreaseQuantity(product)} />
+                        <img alt="delete" className="action-icons" src={deletebtn} onClick={() => onDeleteProduct(product.id)} />
                     </div>
                 </div>
             </div>
         );
-    }
 }
 
 const styles = {
